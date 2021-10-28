@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
   # ―――  Spec Metadata  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
-  s.name         = "MobileCoin"
+  s.name         = "MobileCoinProtos"
   s.version      = "1.2.0-pre2"
   s.summary      = "A library for communicating with MobileCoin network"
 
@@ -32,38 +32,8 @@ Pod::Spec.new do |s|
       "Sources/**/*.{h,m,swift}",
     ]
 
-    subspec.dependency "LibMobileCoin", "~> 1.2.0-pre3"
-
-    subspec.dependency "gRPC-Swift"
     subspec.dependency "Logging", "~> 1.4"
-    subspec.dependency "SwiftNIO"
-    subspec.dependency "SwiftNIOHPACK"
-    subspec.dependency "SwiftNIOHTTP1"
     subspec.dependency "SwiftProtobuf"
-
-    subspec.test_spec do |test_spec|
-      test_spec.source_files = "Tests/{Unit,Common}/**/*.swift"
-      test_spec.resources = [
-        "Tests/Common/FixtureData/**/*",
-        "Vendor/libmobilecoin-ios-artifacts/Vendor/mobilecoin/test-vectors/vectors/**/*",
-      ]
-    end
-
-    subspec.test_spec 'IntegrationTests' do |test_spec|
-      test_spec.source_files = "Tests/{Integration,Common}/**/*.swift"
-      test_spec.resource = "Tests/Common/FixtureData/**/*"
-    end
-
-    subspec.test_spec 'PerformanceTests' do |test_spec|
-      test_spec.source_files = "Tests/{Performance,Common}/**/*.swift"
-
-      test_spec.test_type = :ui
-      test_spec.requires_app_host = true
-    end
-
-    unless ENV["MC_ENABLE_SWIFTLINT_SCRIPT"].nil?
-      subspec.dependency 'SwiftLint'
-    end
   end
 
 
@@ -92,23 +62,5 @@ Pod::Spec.new do |s|
   end
 
   s.pod_target_xcconfig = pod_target_xcconfig
-
-  unless ENV["MC_ENABLE_SWIFTLINT_SCRIPT"].nil?
-    s.script_phases = [
-      {
-        :name => "Run SwiftLint",
-        :execution_position => :any,
-        :script => <<~'EOS'
-          SWIFTLINT="${PODS_ROOT}/SwiftLint/swiftlint"
-          if which ${SWIFTLINT} >/dev/null; then
-            cd "${PODS_TARGET_SRCROOT}"
-            ${SWIFTLINT}
-          else
-            echo "warning: SwiftLint not installed, run \`pod install\`"
-          fi
-        EOS
-      },
-    ]
-  end
 end
 
