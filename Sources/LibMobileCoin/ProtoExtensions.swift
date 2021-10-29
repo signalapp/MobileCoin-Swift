@@ -5,7 +5,6 @@
 //
 
 import Foundation
-import LibMobileCoin
 
 // MARK: - External
 
@@ -150,7 +149,7 @@ extension FogLedger_BlockRequest {
     }
 }
 
-extension FogLedger_BlockData {
+extension FogLedger_Block {
     var timestampDate: Date {
         get { Date(timeIntervalSince1970: TimeInterval(timestamp)) }
         set { timestamp = UInt64(newValue.timeIntervalSince1970) }

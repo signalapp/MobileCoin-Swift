@@ -3,7 +3,6 @@
 //
 
 import Foundation
-import LibMobileCoin
 
 struct LibMobileCoinError: Error {
     static func make(consuming error: UnsafeMutablePointer<McError>)

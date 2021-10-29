@@ -3,7 +3,6 @@
 //
 
 import Foundation
-import LibMobileCoin
 
 enum CryptoUtils {
     static func ristrettoPrivateValidate(_ bytes: Data) -> Bool {

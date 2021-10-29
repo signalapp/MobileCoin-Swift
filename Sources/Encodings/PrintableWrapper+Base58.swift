@@ -5,7 +5,6 @@
 //
 
 import Foundation
-import LibMobileCoin
 
 extension Printable_PrintableWrapper {
     init?(base58Encoded base58String: String) {

@@ -1,10 +1,8 @@
 //
-
 //  Copyright (c) 2020-2021 MobileCoin. All rights reserved.
 //
 
 import Foundation
-import LibMobileCoin
 
 /// Represents a single "output" `TxOut` from a `Transaction`. Intended to be serialized and sent to
 /// the recipient of that `TxOut`. The recipient is able to use `Receipt` to validate that a
@@ -79,6 +77,7 @@ public struct Receipt {
 
     func unmaskValue(accountKey: AccountKey) -> Result<UInt64, InvalidInputError> {
         guard let value = TxOutUtils.value(
+            commitment: commitment,
             maskedValue: maskedValue,
             publicKey: txOutPublicKeyTyped,
             viewPrivateKey: accountKey.viewPrivateKey)
@@ -103,6 +102,7 @@ public struct Receipt {
         }
 
         guard let value = TxOutUtils.value(
+                commitment: commitment,
                 maskedValue: maskedValue,
                 publicKey: txOutPublicKeyTyped,
                 viewPrivateKey: accountKey.viewPrivateKey)
@@ -112,7 +112,7 @@ public struct Receipt {
 
         return value
     }
-    
+
     enum ReceivedStatus {
         case notReceived(knownToBeNotReceivedBlockCount: UInt64?)
         case received(block: BlockMetadata)

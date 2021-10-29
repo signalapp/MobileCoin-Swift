@@ -3,7 +3,6 @@
 //
 
 import Foundation
-import LibMobileCoin
 
 func withMcInfallible(_ body: () -> OpaquePointer?) -> OpaquePointer {
     guard let value = body() else {

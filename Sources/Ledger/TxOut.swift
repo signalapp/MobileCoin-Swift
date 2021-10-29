@@ -3,7 +3,6 @@
 //
 
 import Foundation
-import LibMobileCoin
 
 struct TxOut: TxOutProtocol {
     fileprivate let proto: External_TxOut

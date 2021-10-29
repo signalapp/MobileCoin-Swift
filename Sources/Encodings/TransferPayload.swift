@@ -3,7 +3,6 @@
 //
 
 import Foundation
-import LibMobileCoin
 
 public struct TransferPayload {
     let rootEntropy32: Data32

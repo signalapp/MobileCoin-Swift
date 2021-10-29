@@ -3,7 +3,6 @@
 //
 
 import Foundation
-import LibMobileCoin
 
 struct RistrettoPublic {
     let data32: Data32

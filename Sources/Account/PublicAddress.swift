@@ -3,7 +3,6 @@
 //
 
 import Foundation
-import LibMobileCoin
 
 public struct PublicAddress {
     static func make(

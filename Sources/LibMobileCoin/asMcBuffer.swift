@@ -5,7 +5,6 @@
 //
 
 import Foundation
-import LibMobileCoin
 
 extension DataConvertible {
     func asMcBuffer<T>(_ body: (UnsafePointer<McBuffer>) throws -> T) rethrows -> T {

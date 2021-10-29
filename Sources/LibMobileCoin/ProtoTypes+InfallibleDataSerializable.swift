@@ -5,7 +5,6 @@
 //
 
 import Foundation
-import LibMobileCoin
 
 // MARK: - External
 

@@ -30,6 +30,8 @@ Pod::Spec.new do |s|
   s.subspec "Core" do |subspec|
     subspec.source_files = [
       "Sources/**/*.{h,m,swift}",
+      "LibMobileCoin/**/*.{h,m,swift}",
+      "Glue/**/*.{h,m,swift}",
     ]
 
     subspec.dependency "Logging", "~> 1.4"

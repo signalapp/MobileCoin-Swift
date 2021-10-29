@@ -5,7 +5,6 @@
 // swiftlint:disable multiline_function_chains
 
 import Foundation
-import LibMobileCoin
 
 public struct AccountKey {
     static func make(

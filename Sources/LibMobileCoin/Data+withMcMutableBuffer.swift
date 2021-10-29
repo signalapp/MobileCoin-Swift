@@ -5,7 +5,6 @@
 // swiftlint:disable colon multiline_function_chains
 
 import Foundation
-import LibMobileCoin
 
 extension Data {
     static func make(

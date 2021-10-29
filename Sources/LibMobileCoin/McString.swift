@@ -5,7 +5,6 @@
 //
 
 import Foundation
-import LibMobileCoin
 
 extension String {
     init(mcString: UnsafeMutablePointer<CChar>) {

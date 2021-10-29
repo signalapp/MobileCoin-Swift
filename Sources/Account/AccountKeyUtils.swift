@@ -5,7 +5,6 @@
 // swiftlint:disable function_parameter_count
 
 import Foundation
-import LibMobileCoin
 
 enum AccountKeyUtils {
     static func subaddressPrivateKeys(

@@ -3,7 +3,6 @@
 //
 
 import Foundation
-import LibMobileCoin
 
 public enum Base58DecodingResult {
     case publicAddress(PublicAddress)

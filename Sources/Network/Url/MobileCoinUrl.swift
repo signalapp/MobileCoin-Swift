@@ -51,7 +51,7 @@ extension MobileCoinUrlProtocol {
     }
 }
 
-struct MobileCoinUrl<Scheme: MobileCoin.Scheme>: MobileCoinUrlProtocol {
+struct MobileCoinUrl<Scheme: MobileCoinProtos.Scheme>: MobileCoinUrlProtocol {
     static func make(string: String) -> Result<MobileCoinUrl, InvalidInputError> {
         guard let url = URL(string: string) else {
             return .failure(InvalidInputError("Could not parse url: \(string)"))
