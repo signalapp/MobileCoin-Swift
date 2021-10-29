@@ -11,20 +11,6 @@ public enum MobileCoinMinimalError: Error {
 
 public class MobileCoinMinimal {
     
-//    public enum MobileCoinLogging {
-//        public static var logSensitiveData = false {
-//            willSet {
-//                guard logSensitiveDataInternal.set(newValue) else {
-//                    logger.preconditionFailure(
-//                        "logSensitiveData can only be set prior to using the MobileCoin SDK.")
-//                }
-//            }
-//        }
-//    }
-    
-//    private static let logger = Logger(label: "com.mobilecoin.minimal", factory: ContextPrefixLogHandler.init)
-//    internal let logger = Logger(label: "com.mobilecoin", factory: ContextPrefixLogHandler.init)
-
     public static func txOutPublicKey(forReceiptData serializedData: Data) throws -> Data {
         guard let proto = try? External_Receipt(serializedData: serializedData) else {
             logger.warning(
@@ -35,6 +21,15 @@ public class MobileCoinMinimal {
         }
         let txOutPublicKey = proto.publicKey.data
         return txOutPublicKey
+    }
+
+    public static func isValidMobileCoinPublicAddress(_ serializedData: Data) -> Bool {
+        guard let proto = try? External_PublicAddress(serializedData: serializedData) else {
+            logger.warning("External_PublicAddress deserialization failed. serializedData: " +
+                           "\(redacting: serializedData.base64EncodedString())")
+            return false
+        }
+        return true
     }
 }
 
