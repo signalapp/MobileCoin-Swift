@@ -40,6 +40,8 @@ def copy_path(path, src_repo_name, dst_prefix = None):
     substrings_to_replace = {
         # 'MobileCoin.Scheme': 'Scheme',
         'MobileCoin.Scheme': 'MobileCoinProtos.Scheme',
+        # '@testable import MobileCoin': '@testable import MobileCoinProtos',
+        'import MobileCoin': 'import MobileCoinProtos',
     }
 
     with open(src_file_path, 'rt') as f:
@@ -69,6 +71,7 @@ if __name__ == "__main__":
     dst_root_paths = [
         "Sources",
         "LibMobileCoin",
+        "Tests",
     ]
     for dst_root_path in dst_root_paths:
         dst_dir_path = os.path.join(git_repo_path, dst_root_path)
@@ -117,6 +120,11 @@ if __name__ == "__main__":
         "Sources/Utils/Data/Data+MutableData.swift",
         "Sources/LibMobileCoin/Data+withMcMutableBuffer.swift",
         "Sources/LibMobileCoin/McString.swift",
+        # Tests
+        "Tests//Unit/Transaction/ReceiptPublicApiTests.swift",
+        "Tests//Common/Fixtures/Transaction/Receipt+Fixtures.swift",
+        "Tests/Common/Fixtures/Account/AccountKey+Fixtures.swift",
+        "Tests/Common/Utils/TestRng.swift",
     ]
     for path in mc_swift_paths:
         copy_path(path, "MobileCoin-Swift")
