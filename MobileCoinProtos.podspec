@@ -36,6 +36,7 @@ Pod::Spec.new do |s|
 
     subspec.dependency "Logging", "~> 1.4"
     subspec.dependency "SwiftProtobuf"
+    subspec.dependency "CocoaLumberjack"
   end
 
 
