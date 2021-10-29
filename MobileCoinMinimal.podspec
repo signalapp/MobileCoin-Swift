@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
   # ―――  Spec Metadata  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
-  s.name         = "MobileCoinProtos"
+  s.name         = "MobileCoinMinimal"
   s.version      = "1.2.0-pre2"
   s.summary      = "A library for communicating with MobileCoin network"
 
@@ -37,7 +37,10 @@ Pod::Spec.new do |s|
 
 	# s.test_spec do |test_spec|
 	s.test_spec 'Tests' do |test_spec|
-		test_spec.source_files = 'Tests/**/*.{h,m,swift}'
+		test_spec.source_files = [
+			'Tests/**/*.{h,m,swift}',
+			'TestGlue/**/*.{h,m,swift}',
+		]
 		# test_spec.resources = 'Tests/**/*.{json,encrypted,webp}'
 		test_spec.resources = 'Tests/**/*.*'
 	end
