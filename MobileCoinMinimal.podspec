@@ -44,49 +44,7 @@ Pod::Spec.new do |s|
 		# test_spec.resources = 'Tests/**/*.{json,encrypted,webp}'
 		test_spec.resources = 'Tests/**/*.*'
 	end
-  
-	#   s.default_subspec = "Core"
-	#
-	#   s.subspec "Core" do |subspec|
-	#     subspec.source_files = [
-	#       "Sources/**/*.{h,m,swift}",
-	#       "LibMobileCoin/**/*.{h,m,swift}",
-	#       "Glue/**/*.{h,m,swift}",
-	#     ]
-	#
-	#     subspec.dependency "Logging", "~> 1.4"
-	#     subspec.dependency "SwiftProtobuf"
-	#     subspec.dependency "CocoaLumberjack"
-	#
-	#     subspec.test_spec do |test_spec|
-	# 	# s.test_spec 'Tests' do |test_spec|
-	# 	test_spec.source_files = 'Tests/**/*.{h,m,swift}'
-	# 	# test_spec.resources = 'Tests/**/*.{json,encrypted,webp}'
-	# 	test_spec.resources = 'Tests/**/*.*'
-	# end
-	#
-	#   end
-
-    # subspec.test_spec do |test_spec|
-    #   test_spec.source_files = "Tests/{Unit,Common}/**/*.swift"
-    #   test_spec.resources = [
-    #     "Tests/Common/FixtureData/**/*",
-    #     "Vendor/libmobilecoin-ios-artifacts/Vendor/fog/mobilecoin/test-vectors/vectors/**/*",
-    #   ]
-    # end
-    #
-    # subspec.test_spec 'IntegrationTests' do |test_spec|
-    #   test_spec.source_files = "Tests/{Integration,Common}/**/*.swift"
-    #   test_spec.resource = "Tests/Common/FixtureData/**/*"
-    # end
-    #
-    # subspec.test_spec 'PerformanceTests' do |test_spec|
-    #   test_spec.source_files = "Tests/{Performance,Common}/**/*.swift"
-    #
-    #   test_spec.test_type = :ui
-    #   test_spec.requires_app_host = true
-    # end
-	
+  	
   # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
   s.swift_version = "5.2"
