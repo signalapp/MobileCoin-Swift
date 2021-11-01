@@ -1,7 +1,5 @@
 
 // Order matters.
-//#include "attest.h"
-//#include "transaction.h"
 #import <MobileCoinMinimal/attest.h>
 #import <MobileCoinMinimal/transaction.h>
 
