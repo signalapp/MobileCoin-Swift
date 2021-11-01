@@ -7,6 +7,25 @@ import argparse
 import shutil
 import subprocess
 
+'''
+This fork needs to track updates in the real MobileCoin SDK. 
+This script can be used to copy over the files from the real SDK. 
+It does not update the podspec as well; that must be done manually.
+
+To update this fork to reflect a new version of the MobileCoin SDK:
+
+* Ensure `MobileCoin-Swift` repo is cloned in sibling directory and is at the correct commit.
+* Ensure `libmobilecoin-ios-artifacts` repo is cloned in sibling directory and is at the correct commit.
+* Run this script.
+* Edit the MobileCoinMinimal.podspec.
+  * You probably only need to update the version number.
+* Commit and push these changes in a branch.
+* Update Signal-iOS to use the new branch.
+  * Edit Podfile to reflect new branch.
+  * bundle install;bundle exec pod update MobileCoinMinimal
+* Make sure MobileCoinHelperTests is passing.
+'''
+
 git_repo_path = os.path.abspath(subprocess.check_output(['git', 'rev-parse', '--show-toplevel']).strip())
 
 def copy_path(path, src_repo_name, dst_prefix = None):
