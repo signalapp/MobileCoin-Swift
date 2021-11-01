@@ -1,7 +1,6 @@
 
 
 import Foundation
-//import Logging
 
 public enum MobileCoinMinimalError: Error {
     case invalidReceipt
