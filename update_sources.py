@@ -110,11 +110,11 @@ if __name__ == "__main__":
         
     mc_swift_paths = [
         "Sources/Generated/Proto/external.pb.swift",
-        "Artifacts/include/attest.h",
-        "Artifacts/include/common.h",
-        "Artifacts/include/keys.h",
-        "Artifacts/include/transaction.h",
-        "Artifacts/include/fog.h",
+        # "Artifacts/include/attest.h",
+        # "Artifacts/include/common.h",
+        # "Artifacts/include/keys.h",
+        # "Artifacts/include/transaction.h",
+        # "Artifacts/include/fog.h",
     ]
     for path in mc_swift_paths:
         copy_path(path, "libmobilecoin-ios-artifacts", dst_prefix = "LibMobileCoin")
