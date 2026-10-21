@@ -1,72 +1,52 @@
-// swift-tools-version:5.7
+// swift-tools-version:5.9
 import PackageDescription
-import Foundation
 
 let package = Package(
     name: "MobileCoin",
     platforms: [
         .iOS(.v13),
-        .macOS(.v11),
     ],
     products: [
-        .library(
-            name: "MobileCoinCore",
-            targets: ["MobileCoin"]),
+        .library(name: "MobileCoinCore", targets: ["MobileCoin"]),
     ],
     dependencies: [
-        // Here we define our package's external dependencies
-        // and from where they can be fetched:
-        .package(
-            path: "Vendor/libmobilecoin"
-        ),
-        .package(
-            url: "https://github.com/apple/swift-log.git",
-            from: "1.4.0"
-        ),
-        .package(
-            url: "https://github.com/apple/swift-protobuf.git",
-            from: "1.5.0"
-        ),
-        .package(url: "https://github.com/grpc/grpc-swift.git", from: "1.15.0")
+        .package(url: "https://github.com/apple/swift-log.git", from: "1.4.0"),
+        .package(url: "https://github.com/apple/swift-protobuf.git", from: "1.5.0"),
     ],
     targets: [
-        .target(
-            name: "MobileCoin",
-            dependencies: [.product(name: "SwiftProtobuf", package: "swift-protobuf"), .product(name: "LibMobileCoinCore", package: "libmobilecoin")],
-            path: "Sources"
-         ),
-        .testTarget(
-            name: "MobileCoinTests",
-            dependencies: ["MobileCoin"], 
-            path: "Tests",
-            exclude: [
-                "Common/Secrets/secrets.json.sample"
-            ],
-            resources: [
-                .copy("Common/FixtureData/Transaction"),
-                .copy("Common/Secrets/secrets.json"),
-                .copy("Common/Secrets/process_info.json")
-            ]
+        .binaryTarget(
+            name: "LibMobileCoin",
+            url: "https://build-artifacts.signal.org/libraries/libmobilecoin-ios-build-v6.0.2.zip",
+            checksum: "bd99aff553c7c48fd6638fbe51685b508abf6100749c6563feb018315ec2bf26"
         ),
         .target(
-            name: "TestSetupClient",
-            dependencies: ["MobileCoin"],
-            path: "tools/TestSetupClient/TestSetupClient",
-            exclude: [
-                "Assets.xcassets",
-                "Preview Content/Preview Assets.xcassets"
-            ]
-         ),
-        .testTarget(
-            name: "TestSetupClientTests",
-            dependencies: ["TestSetupClient"],
-            path: "tools/TestSetupClient/TestSetupClientTests",
-            exclude: [
-                "process_info.json.sample"
+            name: "LibMobileCoinCommon",
+            dependencies: [
+                .product(name: "SwiftProtobuf", package: "swift-protobuf"),
             ],
-            resources: [
-                .copy("process_info.json")
+            path: "Vendor/libmobilecoin/Sources/Common"
+        ),
+        .target(
+            name: "LibMobileCoinHTTP",
+            dependencies: ["LibMobileCoinCommon"],
+            path: "Vendor/libmobilecoin/Sources/HTTP"
+        ),
+        .target(
+            name: "MobileCoin",
+            dependencies: [
+                "LibMobileCoin",
+                "LibMobileCoinCommon",
+                "LibMobileCoinHTTP",
+                .product(name: "Logging", package: "swift-log"),
+                .product(name: "SwiftProtobuf", package: "swift-protobuf"),
+            ],
+            path: "Sources",
+            exclude: [
+                "GRPC",
+            ],
+            linkerSettings: [
+                .linkedLibrary("z"),
             ]
-         )
+        ),
     ]
 )

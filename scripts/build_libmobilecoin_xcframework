@@ -1,0 +1,70 @@
+#!/bin/bash
+
+set -euo pipefail
+
+if [ $# -ne 2 ]; then
+    echo "usage: $0 <libmobilecoin-apple-artifacts-commit> <output-zip>" >&2
+    exit 1
+fi
+
+commit="$1"
+if [[ ! "$commit" =~ ^[0-9a-f]{40}$ ]]; then
+    echo "error: expected a full 40-character commit SHA, got '$commit'" >&2
+    exit 1
+fi
+
+mkdir -p "$(dirname -- "$2")"
+output="$(cd "$(dirname -- "$2")" && pwd)/$(basename -- "$2")"
+include="$(cd "$(dirname -- "$BASH_SOURCE")/../Vendor/libmobilecoin/include" && pwd)"
+repository="signalapp/libmobilecoin-apple-artifacts"
+
+work="$(mktemp -d)"
+trap 'rm -rf "$work"' EXIT
+
+for target in aarch64-apple-ios aarch64-apple-ios-sim x86_64-apple-ios; do
+    path="target/$target/release/libmobilecoin.a"
+    pointer="$(curl -fsSL --retry 3 "https://raw.githubusercontent.com/$repository/$commit/$path")"
+    expected="$(sed -n 's/^oid sha256:\([0-9a-f]\{64\}\)$/\1/p' <<< "$pointer")"
+    if [ -z "$expected" ]; then
+        echo "error: $path at $commit is not a git-lfs pointer" >&2
+        exit 1
+    fi
+
+    mkdir -p "$work/$target"
+    curl -fsSL --retry 3 -o "$work/$target/libmobilecoin.a" \
+        "https://media.githubusercontent.com/media/$repository/$commit/$path"
+    actual="$(shasum -a 256 "$work/$target/libmobilecoin.a" | cut -d ' ' -f 1)"
+    if [ "$actual" != "$expected" ]; then
+        echo "error: $path has SHA-256 $actual, but its git-lfs pointer records $expected" >&2
+        exit 1
+    fi
+done
+
+mkdir -p "$work/ios-simulator"
+lipo -create \
+    "$work/aarch64-apple-ios-sim/libmobilecoin.a" \
+    "$work/x86_64-apple-ios/libmobilecoin.a" \
+    -output "$work/ios-simulator/libmobilecoin.a"
+
+xcodebuild -create-xcframework \
+    -library "$work/aarch64-apple-ios/libmobilecoin.a" -headers "$include" \
+    -library "$work/ios-simulator/libmobilecoin.a" -headers "$include" \
+    -output "$work/LibMobileCoin.xcframework" >/dev/null
+
+python3 -I - "$work/LibMobileCoin.xcframework/Info.plist" <<'PYTHON'
+import plistlib
+import sys
+
+path = sys.argv[1]
+with open(path, "rb") as file:
+    info = plistlib.load(file)
+info["AvailableLibraries"].sort(key=lambda library: library["LibraryIdentifier"])
+with open(path, "wb") as file:
+    plistlib.dump(info, file)
+PYTHON
+
+find "$work/LibMobileCoin.xcframework" -exec touch -h -t 200001010000 {} +
+rm -f "$output"
+(cd "$work" && find LibMobileCoin.xcframework | LC_ALL=C sort | TZ=UTC zip -q -X -@ "$output")
+
+swift package compute-checksum "$output"
